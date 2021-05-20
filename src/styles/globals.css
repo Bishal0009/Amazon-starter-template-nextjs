@@ -4,7 +4,7 @@
 
 @layer components {
   .link {
-    @apply cursor-pointer hover:underline;
+    @apply cursor-pointer hover:border border-white p-3 whitespace-nowrap;
   }
 
   .button {

@@ -14,7 +14,7 @@ function Product({ id, title, description, category, image, price }) {
   const [hasPrime] = useState(1);
   //   const [hasPrime] = useState(Math.random < 0.5);
   return (
-    <div className="relative flex flex-col m-5 bg-white z-30 p-10">
+    <div className="relative flex flex-col m-5 bg-white z-30 p-10 hover:shadow-2xl rounded-3xl">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
@@ -24,6 +24,7 @@ function Product({ id, title, description, category, image, price }) {
         height={200}
         width={200}
         objectFit="contain"
+        className="transition duration-150 transform hover:scale-125 overflow-visible"
       />
       <h4 className="my-3">{title}</h4>
       <div className="flex items-center text-yellow-500 ">
