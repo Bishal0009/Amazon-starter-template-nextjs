@@ -12,7 +12,7 @@ function Product({ id, title, description, category, image, price }) {
   );
 
   //   const [hasPrime] = useState(1);
-  const [hasPrime] = useState(Math.floor(Math.random() * 2));
+  const [hasPrime] = useState(Math.random() < 0.5);
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10 hover:shadow-2xl rounded-3xl">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
