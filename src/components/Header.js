@@ -1,14 +1,17 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Image from "next/image";
 import {
+  ExternalLinkIcon,
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 
 function Header({ categories }) {
   return (
-    <header>
+    <header className="sticky top-0 z-40">
       {/* Top Container */}
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
         <div className="mt-2 flex flex-grow sm:flex-grow-0">
@@ -20,10 +23,45 @@ function Header({ categories }) {
             className="cursor-pointer"
           />
         </div>
-        <div className="hidden sm:flex flex-grow items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 cursor-pointer">
+        <div className="hidden md:flex flex-grow items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 cursor-pointer">
+          <Menu as="div" className="relative inline-block text-left">
+            {({ open }) => (
+              <>
+                <Menu.Button className="p-2 bg-gray-300 rounded-l-md flex items-center space-x-1">
+                  <span>All</span>
+                  {open ? (
+                    <ChevronUpIcon className="h-5" />
+                  ) : (
+                    <ChevronDownIcon className="h-5" />
+                  )}
+                </Menu.Button>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute flex flex-col w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-1 py-1 z-40">
+                    {categories.map((category) => (
+                      <Menu.Item
+                        as="div"
+                        className="link flex items-center space-x-2"
+                      >
+                        <a className="capitalize">{category}</a>
+                        <ExternalLinkIcon className="h-5" />
+                      </Menu.Item>
+                    ))}
+                  </Menu.Items>
+                </Transition>
+              </>
+            )}
+          </Menu>
           <input
             type="text"
-            className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
+            className="p-2 h-full w-6 flex-grow flex-shrink focus:outline-none px-4"
           />
           <SearchIcon className="h-12 p-4" />
         </div>
