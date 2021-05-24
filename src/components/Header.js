@@ -8,14 +8,23 @@ import {
 } from "@heroicons/react/outline";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { signIn, signOut, useSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectItems } from "../slices/basketSlice";
 
 function Header({ categories }) {
+  const [session] = useSession();
+  const router = useRouter();
+  const items = useSelector(selectItems);
+
   return (
     <header className="sticky top-0 z-40">
       {/* Top Container */}
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
         <div className="mt-2 flex flex-grow sm:flex-grow-0">
           <Image
+            onClick={() => router.push("/")}
             src="https://links.papareact.com/f90"
             width={150}
             height={40}
@@ -45,8 +54,9 @@ function Header({ categories }) {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="absolute flex flex-col w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-1 py-1 z-40">
-                    {categories.map((category) => (
+                    {categories.map((category, index) => (
                       <Menu.Item
+                        key={index}
                         as="div"
                         className="link flex items-center space-x-2"
                       >
@@ -67,20 +77,23 @@ function Header({ categories }) {
         </div>
         {/* Right Div */}
         <div className="text-white flex items-center space-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello Bishal Shrestha,</p>
+          <div onClick={!session ? signIn : signOut} className="link">
+            <p>{session ? `Hello, ${session.user.name}` : "Sign In"}</p>
             <p className="font-extrabold md:text-sm">Account & List</p>
           </div>
           <div className="link">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
-          <div className="link relative flex items-center">
+          <div
+            className="link relative flex items-center"
+            onClick={() => router.push("/checkout")}
+          >
             <div
               className="text-sm absolute -top-1 -right-3 md:right-10 p-1 rounded-full w-8
              bg-yellow-400 text-center text-black font-bold"
             >
-              0
+              {items.length}
             </div>
             <p>
               <ShoppingCartIcon className="h-12" />
